@@ -63,12 +63,12 @@ void makePlayer(entity* e)
 	e->flags = 0x00;
 }
 
-//#define POOKEY_GRAVITY 0x0100
-//#define POOKEY_JUMP_FORCE 0x0800
-#define POOKEY_GRAVITY 0x0100
-#define POOKEY_JUMP_FORCE 0x0700
-#define POOKEY_WALK_SPEED 0x0200
-#define POOKEY_RUN_SPEED 0x0400
+#define POOKEY_GRAVITY 		0x0080
+#define POOKEY_JUMP_FORCE	0x0400
+#define POOKEY_SJUMP_FORCE 	0x0500
+
+#define POOKEY_WALK_SPEED 	0x0200
+#define POOKEY_RUN_SPEED 	0x0400
 
 void applyGravity( entity* e )
 {
