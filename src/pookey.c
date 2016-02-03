@@ -227,7 +227,7 @@ void main()
 		move_bkg(xpos, 0);
 
 #define OFFX (80)
-#define OFFY ypos + 24
+#define OFFY ypos + 27
 
 		move_sprite(0, 0 + OFFX, 0 + OFFY);
 		move_sprite(1, 8 + OFFX, 0 + OFFY);
