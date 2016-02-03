@@ -190,11 +190,16 @@ void main()
 		xpos = player.pos.x.b.h;
 		ypos = player.pos.y.b.h;
 
-		move_sprite(0,xpos,ypos);
-		move_sprite(1,xpos+8,ypos);
-		move_sprite(2,xpos,ypos+8);
-		move_sprite(3,xpos+8,ypos+8);
+		// x: scroll, y: fixed
+		move_bkg(xpos, 0);
 
+#define OFFX (80)
+#define OFFY ypos + 24
+
+		move_sprite(0, 0 + OFFX, 0 + OFFY);
+		move_sprite(1, 8 + OFFX, 0 + OFFY);
+		move_sprite(2, 0 + OFFX, 8 + OFFY);
+		move_sprite(3, 8 + OFFX, 8 + OFFY);
 
 	}
 }
