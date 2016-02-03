@@ -80,7 +80,7 @@ void applySpeed( entity* e )
 	e->pos.x.w = e->pos.x.w + e->speed.x.w;
 	e->pos.y.w = e->pos.y.w + e->speed.y.w;
 }
-UBYTE counter, xpos, ypos;
+UBYTE counter, xpos, ypos, impulse_timer, running;
 
 // to be able to use fixed, we need to declare it
 // outside the main function
@@ -156,18 +156,50 @@ void main()
 			}
 		}
 
+		running = (counter & J_RIGHT || counter & J_LEFT) && counter & J_B;
+
 		if( counter & J_A )
 		{
 			if( isGrounded(&player) )
 			{
-				player.speed.y.w -= POOKEY_JUMP_FORCE;
+				if( running != 0 )
+				{
+					player.speed.y.w -= POOKEY_SJUMP_FORCE;
+				}
+				else
+				{
+					player.speed.y.w -= POOKEY_JUMP_FORCE;
+				}
 				player.flags = 0x00;
 			}
+			else
+			{
+				if( impulse_timer != 0xFF && impulse_timer < 0x5 )
+				{
+					if( running )
+					{
+						player.speed.y.w = -POOKEY_SJUMP_FORCE;
+					}
+					else
+					{
+						player.speed.y.w = -POOKEY_JUMP_FORCE;
+					}
+					impulse_timer++;
+				}
+			}
+		}
+		else if( impulse_timer != 0xFF )
+		{
+			impulse_timer = 0xFF;
 		}
 
 		if( !isGrounded(&player) )
 		{
 			applyGravity( &player );
+		}
+		else
+		{
+			impulse_timer = 0;
 		}
 
 		debugFixed( &(player.pos.y) );
@@ -179,6 +211,7 @@ void main()
 		{
 			player.pos.y.w = 0x5500;
 			setGrounded(&player);
+			impulse_timer = 0;
 		}
 
 		if( isGrounded(&player) )
