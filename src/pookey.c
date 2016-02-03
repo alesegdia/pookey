@@ -4,33 +4,14 @@
 #include <gb/drawing.h>
 #include <gb/gb.h>
 
-// vec2 containing one WORD for each component
-typedef struct  {
-	fixed x, y;
-} vec2w;
+//#define POOKEY_DEBUG
 
-typedef struct  {
-	vec2w pos;
-	vec2w speed;
-} entity;
 
-void makePlayer(entity* e)
+void debugFixed( fixed* f )
 {
-	e->pos.x.w = 0x1000;
-	e->pos.y.w = 0x1000;
-	e->speed.x.w = 0;
-	e->speed.y.w = 0;
-}
-
-#define GRAVITY 0x0001;
-void applyGravity( entity* e )
-{
-	e->speed.y.w += GRAVITY;
-}
-
-void updatePos( entity* e )
-{
-
+#ifdef POOKEY_DEBUG
+	printf("%x %x %x\n", f->w, f->b.h, f->b.l);
+#endif
 }
 
 unsigned char sprite[] = {
@@ -52,21 +33,66 @@ unsigned char bgmap[] = {
 	1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3
 };
 
-fixed x, y, yforce;
-UBYTE counter, ypos;
+// vec2 containing one WORD for each component
+typedef struct  {
+	fixed x, y;
+} vec2w;
+
+typedef struct  {
+	vec2w pos;
+	vec2w speed;
+	UBYTE flags;
+} entity;
+
+int isGrounded( entity* e )
+{
+	return e->flags & 0x01;
+}
+
+void setGrounded( entity* e )
+{
+	e->flags |= 0x01;
+}
+
+void makePlayer(entity* e)
+{
+	e->pos.x.w   = 0x1000;
+	e->pos.y.w   = 0x1000;
+	e->speed.x.w = 0x0000;
+	e->speed.y.w = 0x0000;
+	e->flags = 0x00;
+}
+
+//#define POOKEY_GRAVITY 0x0100
+//#define POOKEY_JUMP_FORCE 0x0800
+#define POOKEY_GRAVITY 0x0100
+#define POOKEY_JUMP_FORCE 0x0700
+#define POOKEY_WALK_SPEED 0x0200
+#define POOKEY_RUN_SPEED 0x0400
+
+void applyGravity( entity* e )
+{
+	e->speed.y.w += POOKEY_GRAVITY;
+}
+
+void applySpeed( entity* e )
+{
+	e->pos.x.w = e->pos.x.w + e->speed.x.w;
+	e->pos.y.w = e->pos.y.w + e->speed.y.w;
+}
+UBYTE counter, xpos, ypos;
+
+// to be able to use fixed, we need to declare it
+// outside the main function
+entity player;
+
 
 void main()
 {
 	// must be first
     font_t ibm_font, italic_font, min_font;
 
-	entity player;
 	makePlayer(&player);
-
-	x.w = 0x1000;
-	y.w = 0x1000;
-	yforce.w = 0;
-	ypos = 0x10;
 
 	disable_interrupts();
 	DISPLAY_OFF;
@@ -89,11 +115,11 @@ void main()
 	DISPLAY_ON;
 	enable_interrupts();
 
-    font_init();
-    ibm_font = font_load(font_ibm);  /* 96 tiles */
-    italic_font = font_load(font_italic);   /* 93 tiles */
-    color(WHITE, DKGREY, SOLID);
-    min_font = font_load(font_min);
+	font_init();
+	ibm_font = font_load(font_ibm);  /* 96 tiles */
+	italic_font = font_load(font_italic);   /* 93 tiles */
+	color(WHITE, DKGREY, SOLID);
+	min_font = font_load(font_min);
 
 	font_set(ibm_font);
 	printf("Pookey\n");
@@ -106,46 +132,68 @@ void main()
 		}
 		counter = joypad();
 
-		if(counter & J_UP)
-		{
-			y.b.l -= 1;
-		}
-
 		if(counter & J_LEFT)
 		{
-			x.w -= 0x0010;
+			if( counter & J_B )
+			{
+				player.pos.x.w -= POOKEY_RUN_SPEED;
+			}
+			else
+			{
+				player.pos.x.w -= POOKEY_WALK_SPEED;
+			}
 		}
 
 		if(counter & J_RIGHT)
 		{
-			x.w += 0x0010;
+			if( counter & J_B )
+			{
+				player.pos.x.w += POOKEY_RUN_SPEED;
+			}
+			else
+			{
+				player.pos.x.w += POOKEY_WALK_SPEED;
+			}
 		}
 
 		if( counter & J_A )
 		{
-			/*
-			if( y == 100 )
+			if( isGrounded(&player) )
 			{
-				yforce -= 3;
+				player.speed.y.w -= POOKEY_JUMP_FORCE;
+				player.flags = 0x00;
 			}
-			*/
 		}
 
-		//y.b.l += 0x0F;
-		y.w += 0x0010;
-		//ypos = ( y.w & 0xFF00 ) >> 8;
-		ypos = y.b.h;
-		/*
-		if( y.b.h > 100 )
+		if( !isGrounded(&player) )
 		{
-			y.b.h = 100;
+			applyGravity( &player );
 		}
-		*/
 
-		move_sprite(0,x.b.h,ypos);
-		move_sprite(1,x.b.h+8,ypos);
-		move_sprite(2,x.b.h,ypos+8);
-		move_sprite(3,x.b.h+8,ypos+8);
+		debugFixed( &(player.pos.y) );
+		debugFixed( &(player.speed.y) );
+
+		applySpeed(&player);
+
+		if( player.pos.y.w > 0x5500 )
+		{
+			player.pos.y.w = 0x5500;
+			setGrounded(&player);
+		}
+
+		if( isGrounded(&player) )
+		{
+			player.speed.y.w = 0x0000;
+			player.pos.y.w = 0x5500;
+		}
+
+		xpos = player.pos.x.b.h;
+		ypos = player.pos.y.b.h;
+
+		move_sprite(0,xpos,ypos);
+		move_sprite(1,xpos+8,ypos);
+		move_sprite(2,xpos,ypos+8);
+		move_sprite(3,xpos+8,ypos+8);
 
 
 	}
