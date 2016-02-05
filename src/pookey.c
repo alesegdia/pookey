@@ -78,8 +78,8 @@ void setGrounded( entity_t* e )
 
 void makePlayer(entity_t* e)
 {
-	e->pos.x.w   = 0x1000;
-	e->pos.y.w   = 0x1000;
+	e->pos.x.w   = 0x0000;
+	e->pos.y.w   = 0x5600;
 	e->speed.x.w = 0x0000;
 	e->speed.y.w = 0x0000;
 	e->flags = 0x00;
