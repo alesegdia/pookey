@@ -137,12 +137,10 @@ void main()
 	DISPLAY_ON;
 	enable_interrupts();
 
-	while(1) {
-		/* Skip four VBLs (slow down animation) */
-		for(counter = 0; counter < 1; counter++)
-		{
-			wait_vbl_done();
-		}
+	while(1)
+	{
+
+		wait_vbl_done();
 		counter = joypad();
 
 		if( player.speed.x.w > -1000 ) //0xF000 )
