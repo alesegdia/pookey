@@ -58,25 +58,25 @@ unsigned char maptiles[] = {
 // vec2 containing one WORD for each component
 typedef struct  {
 	fixed x, y;
-} vec2w;
+} vec2w_t;
 
 typedef struct  {
-	vec2w pos;
-	vec2w speed;
+	vec2w_t pos;
+	vec2w_t speed;
 	UBYTE flags;
-} entity;
+} entity_t;
 
-int isGrounded( entity* e )
+int isGrounded( entity_t* e )
 {
 	return e->flags & 0x01;
 }
 
-void setGrounded( entity* e )
+void setGrounded( entity_t* e )
 {
 	e->flags |= 0x01;
 }
 
-void makePlayer(entity* e)
+void makePlayer(entity_t* e)
 {
 	e->pos.x.w   = 0x1000;
 	e->pos.y.w   = 0x1000;
@@ -92,12 +92,12 @@ void makePlayer(entity* e)
 #define POOKEY_WALK_SPEED 	0x0200
 #define POOKEY_RUN_SPEED 	0x0400
 
-void applyGravity( entity* e )
+void applyGravity( entity_t* e )
 {
 	e->speed.y.w += POOKEY_GRAVITY;
 }
 
-void applySpeed( entity* e )
+void applySpeed( entity_t* e )
 {
 	e->pos.x.w = e->pos.x.w + e->speed.x.w;
 	e->pos.y.w = e->pos.y.w + e->speed.y.w;
@@ -106,7 +106,7 @@ UBYTE counter, xpos, ypos, impulse_timer, running;
 
 // to be able to use fixed, we need to declare it
 // outside the main function
-entity player;
+entity_t player;
 
 
 void main()
