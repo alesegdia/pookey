@@ -133,37 +133,44 @@ void main()
 	set_sprite_tile(2,3);
 	set_sprite_tile(3,1);
 
-	SHOW_BKG;
 	SHOW_SPRITES;
 	DISPLAY_ON;
 	enable_interrupts();
 
-	font_init();
-	ibm_font = font_load(font_ibm);  /* 96 tiles */
-	italic_font = font_load(font_italic);   /* 93 tiles */
-	color(WHITE, DKGREY, SOLID);
-	min_font = font_load(font_min);
-
-	font_set(ibm_font);
-	printf("Pookey\n");
-
 	while(1) {
 		/* Skip four VBLs (slow down animation) */
-		for(counter = 0; counter < 4; counter++)
+		for(counter = 0; counter < 1; counter++)
 		{
 			wait_vbl_done();
 		}
 		counter = joypad();
 
+		if( player.speed.x.w > -1000 ) //0xF000 )
+		{
+			if( player.speed.x.w <= 0xFFFF )
+			{
+				player.speed.x.w += 10;
+			}
+		}
+		else
+		{
+			if( player.speed.x.w > 1 )
+			{
+				player.speed.x.w -= 10;
+			}
+		}
+
+		player.speed.x.w = player.speed.x.w + 0;
+
 		if(counter & J_LEFT)
 		{
 			if( counter & J_B )
 			{
-				player.pos.x.w -= POOKEY_RUN_SPEED;
+				player.speed.x.w -= ACCEL;
 			}
 			else
 			{
-				player.pos.x.w -= POOKEY_WALK_SPEED;
+				player.speed.x.w -= ACCEL;
 			}
 		}
 
@@ -171,15 +178,55 @@ void main()
 		{
 			if( counter & J_B )
 			{
-				player.pos.x.w += POOKEY_RUN_SPEED;
+				player.speed.x.w += ACCEL;
 			}
 			else
 			{
-				player.pos.x.w += POOKEY_WALK_SPEED;
+				player.speed.x.w += ACCEL;
 			}
 		}
 
 		running = (counter & J_RIGHT || counter & J_LEFT) && counter & J_B;
+
+		if( player.speed.x.w < 0xF000 )
+		{
+			if( running )
+			{
+				if( player.speed.x.w > POOKEY_RUN_SPEED )
+				{
+					player.speed.x.w = POOKEY_RUN_SPEED;
+				}
+			}
+			else
+			{
+				if( player.speed.x.w > POOKEY_WALK_SPEED )
+				{
+					player.speed.x.w = POOKEY_WALK_SPEED;
+				}
+			}
+		}
+		else
+		{
+			if( running )
+			{
+				if( player.speed.x.w < -POOKEY_RUN_SPEED )
+				{
+					player.speed.x.w = -POOKEY_RUN_SPEED;
+				}
+			}
+			else
+			{
+				if( player.speed.x.w < -POOKEY_WALK_SPEED )
+				{
+					player.speed.x.w = -POOKEY_WALK_SPEED;
+				}
+			}
+		}
+
+		if( player.speed.x.b.h == 0  && player.speed.x.b.l < 10 )
+		{
+			player.speed.x.b.l = 0;
+		}
 
 		if( counter & J_A )
 		{
@@ -197,7 +244,7 @@ void main()
 			}
 			else
 			{
-				if( impulse_timer != 0xFF && impulse_timer < 0x5 )
+				if( impulse_timer != 0xFF && impulse_timer < 0xA )
 				{
 					if( running )
 					{
