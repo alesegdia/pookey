@@ -105,7 +105,7 @@ void applySpeed( entity_t* e )
 }
 UBYTE counter, xpos, ypos, impulse_timer, running;
 
-// to be able to use fixed, we need to declare it
+// to be able to use WORD, we need to declare it
 // outside the main function
 entity_t player;
 
