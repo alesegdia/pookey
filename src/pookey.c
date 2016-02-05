@@ -143,7 +143,7 @@ void main()
 		wait_vbl_done();
 		counter = joypad();
 
-		if( player.speed.x.w > -1000 ) //0xF000 )
+		if( player.speed.x.w > 0x7FFF )
 		{
 			if( player.speed.x.w <= 0xFFFF )
 			{
