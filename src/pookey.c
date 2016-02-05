@@ -294,7 +294,9 @@ void main()
 		ypos = player.pos.y.b.h;
 
 		// x: scroll, y: fixed
-		move_bkg(xpos, 0);
+		SCX_REG = xpos;
+		SCY_REG = 0;
+		//move_bkg(xpos, 0);
 
 #define OFFX (80)
 #define OFFY ypos + 27
