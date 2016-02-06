@@ -91,7 +91,7 @@ void makePlayer(entity_t* e)
 
 #define POOKEY_WALK_SPEED 	0x0100
 #define POOKEY_RUN_SPEED 	0x0200
-#define ACCEL 0x0010
+#define ACCEL 0x0020
 
 void applyGravity( entity_t* e )
 {
@@ -112,9 +112,6 @@ entity_t player;
 
 void main()
 {
-	// must be first
-    font_t ibm_font, italic_font, min_font;
-
 	makePlayer(&player);
 
 	disable_interrupts();
@@ -296,7 +293,7 @@ void main()
 		SCY_REG = 0;
 		//move_bkg(xpos, 0);
 
-#define OFFX (80)
+#define OFFX 80
 #define OFFY ypos + 27
 
 		move_sprite(0, 0 + OFFX, 0 + OFFY);
