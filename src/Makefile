@@ -1,8 +1,6 @@
 CC	= /opt/gbdk/bin/lcc -Wa-l -Wl-m -Wl-j
 
-BINS	= pookey.gb
-
-all:	$(BINS)
+all:	pookey.gb
 
 %.o:	%.c
 	$(CC) -c -o $@ $<
@@ -13,9 +11,10 @@ all:	$(BINS)
 %.o:	%.s
 	$(CC) -c -o $@ $<
 
-%.gb:	%.o
-	$(CC) -o $@ $<
+pookey.gb:	pookey.o game/physics.o
+	$(CC) -o pookey.gb pookey.o game/physics.o $<
 
 clean:
 	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm
+	rm -f game/*.o game/*.lst game/*.map *.gb *~ game/*.rel game/*.cdb game/*.ihx game/*.lnk game/*.sym game/*.asm
 
