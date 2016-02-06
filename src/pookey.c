@@ -5,6 +5,7 @@
 #include <gb/gb.h>
 
 #include "game/vec2w.h"
+#include "game/entity.h"
 
 // graphics
 #include "gfx/pookey_gfx.h"
@@ -42,10 +43,6 @@ unsigned char bgmap[] = {
 	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 };
 
-// vec2 containing one WORD for each component
-typedef struct  {
-	fixed x, y;
-} vec2w_t;
 
 typedef struct  {
 	vec2w_t pos;
