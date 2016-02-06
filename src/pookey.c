@@ -7,6 +7,7 @@
 #include "game/vec2w.h"
 #include "game/entity.h"
 #include "game/physics.h"
+#include "game/defs.h"
 
 // graphics
 #include "gfx/pookey_gfx.h"
@@ -57,12 +58,6 @@ void makePlayer(entity_t* e)
 	e->flags = 0x00;
 }
 
-#define POOKEY_JUMP_FORCE	0x0200
-#define POOKEY_SJUMP_FORCE 	0x0280
-
-#define POOKEY_WALK_SPEED 	0x0100
-#define POOKEY_RUN_SPEED 	0x0200
-#define ACCEL 0x0020
 
 UBYTE counter, xpos, ypos, impulse_timer, running;
 

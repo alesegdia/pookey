@@ -1,7 +1,6 @@
 
 #include "physics.h"
-
-#define POOKEY_GRAVITY 		0x0020
+#include "defs.h"
 
 int isGrounded( entity_t* e )
 {
