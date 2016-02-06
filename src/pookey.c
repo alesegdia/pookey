@@ -4,8 +4,9 @@
 #include <gb/drawing.h>
 #include <gb/gb.h>
 
-// graphics
+#include "game/vec2w.h"
 
+// graphics
 #include "gfx/pookey_gfx.h"
 #include "gfx/map_gfx.h"
 
