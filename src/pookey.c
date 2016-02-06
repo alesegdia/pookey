@@ -57,7 +57,6 @@ void makePlayer(entity_t* e)
 	e->flags = 0x00;
 }
 
-#define POOKEY_GRAVITY 		0x0020
 #define POOKEY_JUMP_FORCE	0x0200
 #define POOKEY_SJUMP_FORCE 	0x0280
 
