@@ -6,6 +6,7 @@
 
 #include "game/vec2w.h"
 #include "game/entity.h"
+#include "game/physics.h"
 
 // graphics
 #include "gfx/pookey_gfx.h"
@@ -43,21 +44,8 @@ unsigned char bgmap[] = {
 	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 };
 
-
-typedef struct  {
-	vec2w_t pos;
-	vec2w_t speed;
-	UBYTE flags;
-} entity_t;
-
-int isGrounded( entity_t* e )
 {
-	return e->flags & 0x01;
-}
 
-void setGrounded( entity_t* e )
-{
-	e->flags |= 0x01;
 }
 
 void makePlayer(entity_t* e)
@@ -77,16 +65,6 @@ void makePlayer(entity_t* e)
 #define POOKEY_RUN_SPEED 	0x0200
 #define ACCEL 0x0020
 
-void applyGravity( entity_t* e )
-{
-	e->speed.y.w += POOKEY_GRAVITY;
-}
-
-void applySpeed( entity_t* e )
-{
-	e->pos.x.w = e->pos.x.w + e->speed.x.w;
-	e->pos.y.w = e->pos.y.w + e->speed.y.w;
-}
 UBYTE counter, xpos, ypos, impulse_timer, running;
 
 // to be able to use WORD, we need to declare it
