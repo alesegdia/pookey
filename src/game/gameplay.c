@@ -28,7 +28,7 @@ void game_start()
 
 	// load background
 	set_bkg_data(0, 2, maptiles);
-	set_bkg_tiles( 0, 0, 32, 18, lvl0_map);
+	set_bkg_tiles( 0, 0, lvl0_map.width, lvl0_map.height, lvl0_map.data);
 
 	// load sprite
 	set_sprite_data(0, 4, sprite);
