@@ -1,6 +1,7 @@
 
 #include "physics.h"
 #include "defs.h"
+#include <gb/gb.h>
 
 int isGrounded( entity_t* e )
 {
