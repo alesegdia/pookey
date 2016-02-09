@@ -172,6 +172,7 @@ void gameplay(UBYTE counter)
 		impulse_timer = 0;
 	}
 
+	handleMapCollision(&player, &lvl0_map);
 	applySpeed(&player);
 
 	if( player.pos.y.w > 0x5500 )

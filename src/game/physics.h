@@ -17,7 +17,7 @@ void applyGravity( entity_t* e );
 // applies entity speed to entity position
 void applySpeed( entity_t* e );
 
-void collideWithMap( entity_t* e, map_t* map );
+void handleMapCollision( entity_t* e, map_t* map );
 
 #endif
 
