@@ -9,4 +9,6 @@ typedef struct
 	int height;
 } map_t;
 
+unsigned char get_tilemap_tile( map_t* map, int x, int y );
+
 #endif
