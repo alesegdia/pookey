@@ -11,8 +11,8 @@ all:	pookey.gb
 %.o:	%.s
 	$(CC) -c -o $@ $<
 
-pookey.gb:	pookey.o game/physics.o game/gameplay.o game/map.c
-	$(CC) -o pookey.gb pookey.o game/physics.o  game/gameplay.o $<
+pookey.gb:	pookey.o game/map.o game/physics.o game/gameplay.o 
+	$(CC) -o pookey.gb pookey.o game/physics.o game/gameplay.o game/map.o $<
 
 clean:
 	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm
