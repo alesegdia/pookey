@@ -175,15 +175,15 @@ void gameplay(UBYTE counter)
 	handleMapCollision(&player, &lvl0_map);
 	applySpeed(&player);
 
-	if( player.pos.y.w > 0x5500 )
+	if( player.pos.y.w >= 0x5500 )
 	{
 		player.pos.y.w = 0x5500;
 		setGrounded(&player);
-		impulse_timer = 0;
 	}
 
 	if( isGrounded(&player) )
 	{
+		impulse_timer = 0;
 		player.speed.y.w = 0x0000;
 		player.pos.y.w = 0x5500;
 	}
