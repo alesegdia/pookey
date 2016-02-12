@@ -15,8 +15,9 @@ entity_t player;
 
 void makePlayer()
 {
-	player.pos.x.w   = 0x0000;
-	player.pos.y.w   = 0x5600;
+	//player.pos.y.w   = 0x5600;
+	player.pos.x.w   = 0x0800;
+	player.pos.y.w   = 0x1000;
 	player.speed.x.w = 0x0000;
 	player.speed.y.w = 0x0000;
 	player.flags = 0x00;
@@ -175,34 +176,22 @@ void gameplay(UBYTE counter)
 	handleMapCollision(&player, &lvl0_map);
 	applySpeed(&player);
 
-	if( player.pos.y.w > 0x5500 )
-	{
-		player.pos.y.w = 0x5500;
-		setGrounded(&player);
-		impulse_timer = 0;
-	}
-
 	if( isGrounded(&player) )
 	{
+		impulse_timer = 0;
 		player.speed.y.w = 0x0000;
-		player.pos.y.w = 0x5500;
 	}
 
 	xpos = player.pos.x.b.h;
 	ypos = player.pos.y.b.h;
 
 	// x: scroll, y: fixed
-	SCX_REG = xpos;
-	SCY_REG = 0;
 	//move_bkg(xpos, 0);
 
-#define OFFX 80
-#define OFFY ypos + 27
-
-	move_sprite(0, 0 + OFFX, 0 + OFFY);
-	move_sprite(1, 8 + OFFX, 0 + OFFY);
-	move_sprite(2, 0 + OFFX, 8 + OFFY);
-	move_sprite(3, 8 + OFFX, 8 + OFFY);
+	move_sprite(0, 0 + xpos, 0 + ypos);
+	move_sprite(1, 8 + xpos, 0 + ypos);
+	move_sprite(2, 0 + xpos, 8 + ypos);
+	move_sprite(3, 8 + xpos, 8 + ypos);
 
 }
 
