@@ -33,6 +33,8 @@ void applySpeed( entity_t* e )
 	}
 }
 
+#define XOFFSET 80
+
 void handleMapCollision( entity_t* e, map_t* map )
 {
 	UBYTE x, y,
@@ -52,7 +54,7 @@ void handleMapCollision( entity_t* e, map_t* map )
 		f.w = e->pos.x.w + e->speed.x.w;
 		if( e->speed.x.w > 0x7FFF )
 		{
-			x = (f.b.h + 4) >> 3;
+			x = (f.b.h + XOFFSET + 4) >> 3;
 			for( y = ymin; y <= ymax; y++ )
 			{
 				unsigned char mt = get_tilemap_tile( map, x-1, y );
@@ -65,7 +67,7 @@ void handleMapCollision( entity_t* e, map_t* map )
 		}
 		else if( e->speed.x.w > 0 )
 		{
-			x = (f.b.h - 0) >> 3;
+			x = (f.b.h + XOFFSET + 0) >> 3;
 			for( y = ymin; y <= ymax; y++ )
 			{
 				unsigned char mt = get_tilemap_tile( map, x+1, y );
@@ -88,8 +90,8 @@ void handleMapCollision( entity_t* e, map_t* map )
 		{
 			up = 0;
 		}
-		xmin = ((UBYTE)e->pos.x.b.h) / 8;
-		xmax = xmin + 1;
+		xmin = ((UBYTE)e->pos.x.b.h + XOFFSET) / 8;
+		xmax = ((UBYTE)e->pos.x.b.h + XOFFSET + 8) / 8;
 		f.w = e->pos.y.w + e->speed.y.w;
 		y = (f.b.h - 1) / 8;
 		for( x = xmin; x <= xmax; x++ )

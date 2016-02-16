@@ -186,12 +186,13 @@ void gameplay(UBYTE counter)
 	ypos = player.pos.y.b.h;
 
 	// x: scroll, y: fixed
-	//move_bkg(xpos, 0);
+	move_bkg(xpos, 0);
+	xpos = 80;
 
-	move_sprite(0, 0 + xpos, 0 + ypos);
-	move_sprite(1, 8 + xpos, 0 + ypos);
-	move_sprite(2, 0 + xpos, 8 + ypos);
-	move_sprite(3, 8 + xpos, 8 + ypos);
+	move_sprite(0, 0 + 80, 0 + ypos);
+	move_sprite(1, 8 + 80, 0 + ypos);
+	move_sprite(2, 0 + 80, 8 + ypos);
+	move_sprite(3, 8 + 80, 8 + ypos);
 
 }
 
