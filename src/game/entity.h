@@ -5,6 +5,7 @@
 #include "vec2w.h"
 
 typedef struct  {
+	UBYTE pos_offset;
 	vec2w_t pos;
 	vec2w_t speed;
 	UBYTE flags;
