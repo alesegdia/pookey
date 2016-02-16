@@ -21,8 +21,16 @@ void applyGravity( entity_t* e )
 
 void applySpeed( entity_t* e )
 {
+	UBYTE f = e->pos.x.b.h;
 	e->pos.x.w = e->pos.x.w + e->speed.x.w;
 	e->pos.y.w = e->pos.y.w + e->speed.y.w;
+	if( e->speed.x.b.h < 0x7FFF )
+	{
+		if( e->pos.x.w < f )
+		{
+			e->pos_offset++;
+		}
+	}
 }
 
 void handleMapCollision( entity_t* e, map_t* map )
