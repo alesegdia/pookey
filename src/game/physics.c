@@ -90,7 +90,7 @@ void handleMapCollision( entity_t* e, map_t* map )
 		{
 			up = 0;
 		}
-		xmin = ((UBYTE)e->pos.x.b.h + XOFFSET) / 8;
+		xmin = ((UBYTE)e->pos.x.b.h + XOFFSET - 4) / 8;
 		xmax = ((UBYTE)e->pos.x.b.h + XOFFSET + 8) / 8;
 		f.w = e->pos.y.w + e->speed.y.w;
 		y = (f.b.h - 1) / 8;
