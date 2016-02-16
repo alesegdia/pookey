@@ -50,7 +50,7 @@ void handleMapCollision( entity_t* e, map_t* map )
 	//if( e->speed.x.w != 0 )
 	{
 		ymin = (((UBYTE)e->pos.y.b.h-2) >> 3) - 1;
-		ymax = ymin+1;
+		ymax = (((UBYTE)e->pos.y.b.h-2 + 8) >> 3) - 1;
 		f.w = e->pos.x.w + e->speed.x.w;
 		if( e->speed.x.w > 0x7FFF )
 		{
