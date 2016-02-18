@@ -41,7 +41,7 @@ void applySpeed( entity_t* e )
 
 void handleMapCollision( entity_t* e, map_t* map )
 {
-	UBYTE x, y,
+	UBYTE x_tile, y_tile,
 		  x_min_tile, x_max_tile,
 		  y_min_tile, y_max_tile,
 		  x_collision_exists, y_collision_exists,
@@ -57,16 +57,16 @@ void handleMapCollision( entity_t* e, map_t* map )
 	f.w = e->pos.x.w + e->speed.x.w;
 	if( e->speed.x.w > 0x7FFF )
 	{
-		x = ((f.b.h + XOFFSET + BOX_LEFT) >> 3) - 1;
+		x_tile = ((f.b.h + XOFFSET + BOX_LEFT) >> 3) - 1;
 	}
 	else if( e->speed.x.w > 0 )
 	{
-		x = ((f.b.h + XOFFSET - BOX_RIGHT) >> 3) + 1;
+		x_tile = ((f.b.h + XOFFSET - BOX_RIGHT) >> 3) + 1;
 	}
 
-	for( y = y_min_tile; y <= y_max_tile; y++ )
+	for( y_tile = y_min_tile; y_tile <= y_max_tile; y_tile++ )
 	{
-		unsigned char mt = get_tilemap_tile( map, x, y );
+		unsigned char mt = get_tilemap_tile( map, x_tile, y_tile );
 		if( mt != 0 )
 		{
 			e->speed.x.w = 0;
@@ -81,16 +81,16 @@ void handleMapCollision( entity_t* e, map_t* map )
 	if( e->speed.y.w > 0x7FFF )
 	{
 		moving_up = 1;
-		y = (f.b.h - 16 + BOX_UP) >> 3;
+		y_tile = (f.b.h - 16 + BOX_UP) >> 3;
 	}
 	else if( e->speed.y.w > 0 )
 	{
 		moving_up = 0;
-		y = (f.b.h) >> 3;
+		y_tile = (f.b.h) >> 3;
 	}
-	for( x = x_min_tile; x <= x_max_tile; x++ )
+	for( x_tile = x_min_tile; x_tile <= x_max_tile; x_tile++ )
 	{
-		unsigned char mt = get_tilemap_tile( map, x, y );
+		unsigned char mt = get_tilemap_tile( map, x_tile, y_tile );
 		if( mt != 0 )
 		{
 			e->speed.y.w = 0;
@@ -98,7 +98,7 @@ void handleMapCollision( entity_t* e, map_t* map )
 			if( moving_up == 0 )
 			{
 				setGrounded(e);
-				e->pos.y.b.h = y * 8;
+				e->pos.y.b.h = y_tile * 8;
 				e->pos.y.b.l = 0;
 			}
 		}
