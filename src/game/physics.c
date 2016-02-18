@@ -101,6 +101,8 @@ void handleMapCollision( entity_t* e, map_t* map )
 				if( up == 0 )
 				{
 					setGrounded(e);
+					e->pos.y.b.h = y * 8;
+					e->pos.y.b.l = 0;
 				}
 			}
 		}
