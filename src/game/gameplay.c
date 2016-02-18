@@ -17,7 +17,7 @@ void makePlayer()
 {
 	//player.pos.y.w   = 0x5600;
 	player.pos.x.w   = 0x0800;
-	player.pos.y.w   = 0x1000;
+	player.pos.y.w   = 0x2000;
 	player.speed.x.w = 0x0000;
 	player.speed.y.w = 0x0000;
 	player.flags = 0x00;
