@@ -34,6 +34,10 @@ void applySpeed( entity_t* e )
 }
 
 #define XOFFSET 80
+#define BOX_RIGHT 2
+#define BOX_LEFT 4
+#define BOX_UP 4
+#define BOX_DOWN 0
 
 void handleMapCollision( entity_t* e, map_t* map )
 {
@@ -49,62 +53,47 @@ void handleMapCollision( entity_t* e, map_t* map )
 
 	//if( e->speed.x.w != 0 )
 	{
-		ymin = (((UBYTE)e->pos.y.b.h-2) >> 3) - 1;
-		ymax = (((UBYTE)e->pos.y.b.h-2 + 8) >> 3) - 1;
+		ymin = (((UBYTE)e->pos.y.b.h-1 + BOX_UP) >> 3) - 1;
+		ymax = (((UBYTE)e->pos.y.b.h-1 + 8) >> 3) - 1;
 		f.w = e->pos.x.w + e->speed.x.w;
 		if( e->speed.x.w > 0x7FFF )
 		{
-			x = (f.b.h + XOFFSET + 4) >> 3;
-			for( y = ymin; y <= ymax; y++ )
-			{
-				unsigned char mt = get_tilemap_tile( map, x-1, y );
-				if( mt != 0 )
-				{
-					e->speed.x.w = 0;
-					colx = 1;
-				}
-			}
+			x = ((f.b.h + XOFFSET + BOX_LEFT) >> 3) - 1;
 		}
 		else if( e->speed.x.w > 0 )
 		{
-			x = (f.b.h + XOFFSET + 0) >> 3;
-			for( y = ymin; y <= ymax; y++ )
+			x = ((f.b.h + XOFFSET - BOX_RIGHT) >> 3) + 1;
+		}
+
+		for( y = ymin; y <= ymax; y++ )
+		{
+			unsigned char mt = get_tilemap_tile( map, x, y );
+			if( mt != 0 )
 			{
-				unsigned char mt = get_tilemap_tile( map, x+1, y );
-				if( mt != 0 )
-				{
-					e->speed.x.w = 0;
-					colx = 1;
-				}
+				e->speed.x.w = 0;
+				colx = 1;
 			}
 		}
 	}
 
 	//if( e->speed.y.w != 0 )
 	{
+		xmin = ((UBYTE)e->pos.x.b.h + XOFFSET - BOX_LEFT) / 8;
+		xmax = ((UBYTE)e->pos.x.b.h + XOFFSET + 8 - BOX_RIGHT) / 8;
+		f.w = e->pos.y.w + e->speed.y.w;
 		if( e->speed.y.w > 0x7FFF )
 		{
 			up = 1;
+			y = (f.b.h - 16 + BOX_UP) >> 3;
 		}
 		else if( e->speed.y.w > 0 )
 		{
 			up = 0;
+			y = (f.b.h) >> 3;
 		}
-		xmin = ((UBYTE)e->pos.x.b.h + XOFFSET - 4) / 8;
-		xmax = ((UBYTE)e->pos.x.b.h + XOFFSET + 8) / 8;
-		f.w = e->pos.y.w + e->speed.y.w;
-		y = (f.b.h - 1) / 8;
 		for( x = xmin; x <= xmax; x++ )
 		{
-			unsigned char mt;
-			if( up == 1 )
-			{
-				mt = get_tilemap_tile( map, x, y-2 );
-			}
-			else
-			{
-				mt = get_tilemap_tile( map, x, y );
-			}
+			unsigned char mt = get_tilemap_tile( map, x, y );
 			if( mt != 0 )
 			{
 				e->speed.y.w = 0;
