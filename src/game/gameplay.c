@@ -39,9 +39,10 @@ void game_start()
 	set_sprite_tile(3,1);
 }
 
-UBYTE xpos, ypos, impulse_timer, running;
+UBYTE impulse_timer, 	// current jump impulse
+	  is_player_running; 			// is the player is_player_running?
 
-void gameplay(UBYTE counter)
+void gameplay(UBYTE joypad_state)
 {
 
 	if( player.speed.x.w > 0x7FFF )
@@ -63,9 +64,9 @@ void gameplay(UBYTE counter)
 	// probably some undefined behaviour?
 	// player.speed.x.w = player.speed.x.w + 0;
 
-	if(counter & J_LEFT)
+	if(joypad_state & J_LEFT)
 	{
-		if( counter & J_B )
+		if( joypad_state & J_B )
 		{
 			player.speed.x.w -= ACCEL;
 		}
@@ -75,9 +76,9 @@ void gameplay(UBYTE counter)
 		}
 	}
 
-	if(counter & J_RIGHT)
+	if(joypad_state & J_RIGHT)
 	{
-		if( counter & J_B )
+		if( joypad_state & J_B )
 		{
 			player.speed.x.w += ACCEL;
 		}
@@ -87,11 +88,11 @@ void gameplay(UBYTE counter)
 		}
 	}
 
-	running = (counter & J_RIGHT || counter & J_LEFT) && counter & J_B;
+	is_player_running = (joypad_state & J_RIGHT || joypad_state & J_LEFT) && joypad_state & J_B;
 
 	if( player.speed.x.w < 0xF000 )
 	{
-		if( running )
+		if( is_player_running )
 		{
 			if( player.speed.x.w > POOKEY_RUN_SPEED )
 			{
@@ -108,7 +109,7 @@ void gameplay(UBYTE counter)
 	}
 	else
 	{
-		if( running )
+		if( is_player_running )
 		{
 			if( player.speed.x.w < -POOKEY_RUN_SPEED )
 			{
@@ -129,11 +130,11 @@ void gameplay(UBYTE counter)
 		player.speed.x.b.l = 0;
 	}
 
-	if( counter & J_A )
+	if( joypad_state & J_A )
 	{
 		if( isGrounded(&player) )
 		{
-			if( running != 0 )
+			if( is_player_running != 0 )
 			{
 				player.speed.y.w -= POOKEY_SJUMP_FORCE;
 			}
@@ -147,7 +148,7 @@ void gameplay(UBYTE counter)
 		{
 			if( impulse_timer != 0xFF && impulse_timer < 0xA )
 			{
-				if( running )
+				if( is_player_running )
 				{
 					player.speed.y.w = -POOKEY_SJUMP_FORCE;
 				}
