@@ -26,6 +26,7 @@ void applySpeed( entity_t* e )
 	e->pos.y.w = e->pos.y.w + e->speed.y.w;
 	if( e->speed.x.b.h < 0x7FFF )
 	{
+		// overflow
 		if( e->pos.x.w < f )
 		{
 			e->pos_offset++;
