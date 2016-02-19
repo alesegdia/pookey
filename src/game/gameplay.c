@@ -39,6 +39,29 @@ void game_start()
 	set_sprite_tile(3,1);
 }
 
+UBYTE compute_tile( entity_t* ent )
+{
+	return ent->pos_offset * 32 + (ent->pos.x.b.h >> 3);
+}
+
+void scroll()
+{
+	// x: scroll, y: fixed
+	move_bkg(player.pos.x.b.h, 0);
+
+	// change BG tiles if needed
+}
+
+void draw_player()
+{
+	UBYTE ypos = player.pos.y.b.h;
+	UBYTE xpos = 80;
+	move_sprite(0, 0 + 80, 0 + ypos);
+	move_sprite(1, 8 + 80, 0 + ypos);
+	move_sprite(2, 0 + 80, 8 + ypos);
+	move_sprite(3, 8 + 80, 8 + ypos);
+}
+
 UBYTE impulse_timer, 	// current jump impulse
 	  is_player_running; 			// is the player is_player_running?
 
@@ -183,17 +206,9 @@ void gameplay(UBYTE joypad_state)
 		player.speed.y.w = 0x0000;
 	}
 
-	xpos = player.pos.x.b.h;
-	ypos = player.pos.y.b.h;
+	scroll();
+	draw_player();
 
-	// x: scroll, y: fixed
-	move_bkg(xpos, 0);
-	xpos = 80;
-
-	move_sprite(0, 0 + 80, 0 + ypos);
-	move_sprite(1, 8 + 80, 0 + ypos);
-	move_sprite(2, 0 + 80, 8 + ypos);
-	move_sprite(3, 8 + 80, 8 + ypos);
 
 }
 
