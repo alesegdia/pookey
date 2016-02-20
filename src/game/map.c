@@ -9,3 +9,8 @@ unsigned char get_tilemap_tile( map_t* map, int x, int y )
 	}
 	return 0;
 }
+
+unsigned char* get_tilemap_data_ptr( map_t* map, int x, int y )
+{
+	return map->data + (map->width * y + x);
+}

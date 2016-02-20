@@ -41,15 +41,39 @@ void game_start()
 
 UBYTE compute_tile( entity_t* ent )
 {
-	return ent->pos_offset * 32 + (ent->pos.x.b.h >> 3);
+	return (ent->pos_offset * 32) + ((ent->pos.x.b.h+68) >> 3);
 }
+
+UBYTE last_tile = 0;
+UBYTE first_tile = 0;
 
 void scroll()
 {
+	UBYTE new_last_tile = compute_tile(&player);
+	UBYTE new_first_tile = new_last_tile - 9;
+	UBYTE y_tile;
+
 	// x: scroll, y: fixed
 	move_bkg(player.pos.x.b.h, 0);
 
-	// change BG tiles if needed
+	if( new_last_tile != last_tile )
+	{
+		last_tile = new_last_tile;
+
+		for( y_tile = 0; y_tile < 18; y_tile++ )
+		{
+			set_bkg_tiles( new_last_tile+16, y_tile, 1, 1, get_tilemap_data_ptr(&lvl0_map, new_last_tile+16, y_tile) );
+		}
+	}
+
+	if( (BYTE)new_first_tile >= 0 && new_first_tile != first_tile )
+	{
+		first_tile = new_first_tile;
+		for( y_tile = 0; y_tile < 18; y_tile++ )
+		{
+			set_bkg_tiles( new_first_tile, y_tile, 1, 1, get_tilemap_data_ptr(&lvl0_map, new_first_tile, y_tile) );
+		}
+	}
 }
 
 void draw_player()

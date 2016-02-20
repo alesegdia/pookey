@@ -10,5 +10,6 @@ typedef struct
 } map_t;
 
 unsigned char get_tilemap_tile( map_t* map, int x, int y );
+unsigned char* get_tilemap_data_ptr( map_t* map, int x, int y );
 
 #endif
