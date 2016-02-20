@@ -53,9 +53,6 @@ void scroll()
 	UBYTE new_first_tile = new_last_tile - 9;
 	UBYTE y_tile;
 
-	// x: scroll, y: fixed
-	move_bkg(player.pos.x.b.h, 0);
-
 	if( new_last_tile != last_tile )
 	{
 		last_tile = new_last_tile;
@@ -80,10 +77,21 @@ void draw_player()
 {
 	UBYTE ypos = player.pos.y.b.h;
 	UBYTE xpos = 80;
-	move_sprite(0, 0 + 80, 0 + ypos);
-	move_sprite(1, 8 + 80, 0 + ypos);
-	move_sprite(2, 0 + 80, 8 + ypos);
-	move_sprite(3, 8 + 80, 8 + ypos);
+
+	if( (BYTE)player.pos.x.b.h < 0 )
+	{
+		xpos += player.pos.x.b.h;
+	}
+	else
+	{
+		xpos = 80;
+		move_bkg(player.pos.x.b.h, 0);
+	}
+
+	move_sprite(0, 0 + xpos, 0 + ypos);
+	move_sprite(1, 8 + xpos, 0 + ypos);
+	move_sprite(2, 0 + xpos, 8 + ypos);
+	move_sprite(3, 8 + xpos, 8 + ypos);
 }
 
 UBYTE impulse_timer, 	// current jump impulse
