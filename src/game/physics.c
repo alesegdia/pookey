@@ -52,7 +52,7 @@ void handleMapCollision( entity_t* e, map_t* map )
 	x_collision_exists = 0;
 	y_collision_exists = 0;
 
-	// Y COLLISION
+	// X COLLISION
 	y_min_tile = (((UBYTE)e->pos.y.b.h-1 + BOX_UP) >> 3) - 1;
 	y_max_tile = (((UBYTE)e->pos.y.b.h-1 + 8) >> 3) - 1;
 	f.w = e->pos.x.w + e->speed.x.w;
@@ -75,7 +75,7 @@ void handleMapCollision( entity_t* e, map_t* map )
 		}
 	}
 
-	// X COLLISION
+	// Y COLLISION
 	x_min_tile = ((UBYTE)e->pos.x.b.h + XOFFSET - BOX_LEFT) / 8;
 	x_max_tile = ((UBYTE)e->pos.x.b.h + XOFFSET + 8 - BOX_RIGHT) / 8;
 	f.w = e->pos.y.w + e->speed.y.w;
