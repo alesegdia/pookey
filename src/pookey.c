@@ -6,7 +6,7 @@
 
 #include "game/gameplay.h"
 
-UBYTE counter;
+UBYTE joypad_state;
 
 // to be able to use WORD, we need to declare it
 // outside the main function
@@ -29,7 +29,7 @@ void main()
 	while(1)
 	{
 		wait_vbl_done();
-		counter = joypad();
-		gameplay(counter);
+		joypad_state = joypad();
+		gameplay(joypad_state);
 	}
 }
