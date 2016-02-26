@@ -27,13 +27,23 @@ void applyGravity( entity_t* e )
 
 void applySpeed( entity_t* e )
 {
-	UBYTE f = e->pos.x.b.h;
+	UBYTE prev_x, new_x;
+	prev_x = e->pos.x.b.h + 80;
 	e->pos.x.w = e->pos.x.w + e->speed.x.w;
 	e->pos.y.w = e->pos.y.w + e->speed.y.w;
-	if( e->speed.x.b.h < 0x7FFF )
+	new_x = e->pos.x.b.h + 80;
+
+	if( ((BYTE)e->speed.x.b.h) < 0 )
+	{
+		if( prev_x < new_x )
+		{
+			e->pos_offset--;
+		}
+	}
+	else
 	{
 		// overflow
-		if( e->pos.x.w < f )
+		if( prev_x > new_x )
 		{
 			e->pos_offset++;
 		}
@@ -65,6 +75,8 @@ void handleMapCollision( entity_t* e, map_t* map )
 		x_tile = ((f.b.h + XOFFSET - BOX_RIGHT) >> 3) + 1;
 	}
 
+	x_tile += e->pos_offset * 32;
+
 	for( y_tile = y_min_tile; y_tile <= y_max_tile; y_tile++ )
 	{
 		unsigned char mt = get_tilemap_tile( map, x_tile, y_tile );
@@ -78,6 +90,10 @@ void handleMapCollision( entity_t* e, map_t* map )
 	// Y COLLISION
 	x_min_tile = ((UBYTE)e->pos.x.b.h + XOFFSET - BOX_LEFT) / 8;
 	x_max_tile = ((UBYTE)e->pos.x.b.h + XOFFSET + 8 - BOX_RIGHT) / 8;
+
+	x_min_tile += e->pos_offset * 32;
+	x_max_tile += e->pos_offset * 32;
+
 	f.w = e->pos.y.w + e->speed.y.w;
 	if( e->speed.y.w > 0x7FFF )
 	{
@@ -88,6 +104,11 @@ void handleMapCollision( entity_t* e, map_t* map )
 	{
 		moving_up = 0;
 		y_tile = (f.b.h) >> 3;
+
+		if( x_min_tile > x_max_tile )
+		{
+			x_max_tile = x_min_tile + 1;
+		}
 	}
 	for( x_tile = x_min_tile; x_tile <= x_max_tile; x_tile++ )
 	{
