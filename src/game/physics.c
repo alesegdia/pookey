@@ -19,6 +19,12 @@ void applyGravity( entity_t* e )
 	e->speed.y.w += POOKEY_GRAVITY;
 }
 
+#define XOFFSET 80
+#define BOX_RIGHT 2
+#define BOX_LEFT 4
+#define BOX_UP 4
+#define BOX_DOWN 0
+
 void applySpeed( entity_t* e )
 {
 	UBYTE f = e->pos.x.b.h;
@@ -33,12 +39,6 @@ void applySpeed( entity_t* e )
 		}
 	}
 }
-
-#define XOFFSET 80
-#define BOX_RIGHT 2
-#define BOX_LEFT 4
-#define BOX_UP 4
-#define BOX_DOWN 0
 
 void handleMapCollision( entity_t* e, map_t* map )
 {
