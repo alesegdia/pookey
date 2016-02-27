@@ -76,9 +76,10 @@ void scroll()
 void draw_player()
 {
 	UBYTE ypos = player.pos.y.b.h;
+	/*
 	UBYTE xpos = 80;
 
-	if( (BYTE)player.pos.x.b.h < 0 )
+	if( (BYTE)player.pos.x.b.h < 0 && player.pos_offset == 0 )
 	{
 		xpos += player.pos.x.b.h;
 	}
@@ -87,7 +88,10 @@ void draw_player()
 		xpos = 80;
 		move_bkg(player.pos.x.b.h, 0);
 	}
+	*/
 
+#define xpos 80
+	move_bkg(player.pos.x.b.h, 0);
 	move_sprite(0, 0 + xpos, 0 + ypos);
 	move_sprite(1, 8 + xpos, 0 + ypos);
 	move_sprite(2, 0 + xpos, 8 + ypos);
