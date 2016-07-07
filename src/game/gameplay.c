@@ -1,4 +1,6 @@
 
+#include <stdio.h>
+
 #include "gameplay.h"
 #include "game/vec2w.h"
 #include "game/entity.h"
@@ -16,8 +18,8 @@ entity_t player;
 void makePlayer()
 {
 	//player.pos.y.w   = 0x5600;
-	player.pos.x.w   = 0x0800;
-	player.pos.y.w   = 0x2000;
+	player.pos.x.w   = POOKEY_START_X;
+	player.pos.y.w   = POOKEY_START_Y;
 	player.speed.x.w = 0x0000;
 	player.speed.y.w = 0x0000;
 	player.flags = 0x00;
@@ -41,7 +43,8 @@ void game_start()
 
 UBYTE compute_tile( entity_t* ent )
 {
-	return (ent->pos_offset * 32) + ((ent->pos.x.b.h+68) >> 3);
+	return (ent->pos_offset * GB_TILEMAP_WIDTH) + ((ent->pos.x.b.h+68) >> 3);
+	//return (ent->pos_offset * 32) + ((ent->pos.x.b.h+92) >> 3);
 }
 
 UBYTE last_tile = 0;
