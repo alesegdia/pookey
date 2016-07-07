@@ -14,5 +14,8 @@
 #define POOKEY_START_Y 		0x2000
 
 #define GB_TILEMAP_WIDTH 	32
+#define GB_TILE_SIZE 		8
+
+#define POOKEY_X_OFFSET 	9
 
 #endif

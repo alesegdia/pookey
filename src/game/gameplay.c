@@ -43,7 +43,7 @@ void game_start()
 
 UBYTE compute_tile( entity_t* ent )
 {
-	return (ent->pos_offset * GB_TILEMAP_WIDTH) + ((ent->pos.x.b.h+68) >> 3);
+	return (ent->pos_offset * GB_TILEMAP_WIDTH) + ((ent->pos.x.b.h+ POOKEY_X_OFFSET * 8) >> 3);
 	//return (ent->pos_offset * 32) + ((ent->pos.x.b.h+92) >> 3);
 }
 
@@ -55,6 +55,7 @@ void scroll()
 	UBYTE new_last_tile = compute_tile(&player);
 	UBYTE new_first_tile = new_last_tile - 9;
 	UBYTE y_tile;
+	//printf("%d\n", new_last_tile);
 
 	if( new_last_tile != last_tile )
 	{
