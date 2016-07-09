@@ -106,19 +106,13 @@ UBYTE impulse_timer, 	// current jump impulse
 void gameplay(UBYTE joypad_state)
 {
 
-	if( player.speed.x.w > 0x7FFF )
+	if( player.speed.x.w > 0x7FFF && player.speed.x.w <= 0xFFFF )
 	{
-		if( player.speed.x.w <= 0xFFFF )
-		{
-			player.speed.x.w += 10;
-		}
+		player.speed.x.w += 10;
 	}
-	else
+	else if( player.speed.x.w > 1 )
 	{
-		if( player.speed.x.w > 1 )
-		{
-			player.speed.x.w -= 10;
-		}
+		player.speed.x.w -= 10;
 	}
 
 	// previous hack to get correct player right movement,
@@ -127,26 +121,11 @@ void gameplay(UBYTE joypad_state)
 
 	if(joypad_state & J_LEFT)
 	{
-		if( joypad_state & J_B )
-		{
-			player.speed.x.w -= ACCEL;
-		}
-		else
-		{
-			player.speed.x.w -= ACCEL;
-		}
+		player.speed.x.w -= ACCEL;
 	}
-
-	if(joypad_state & J_RIGHT)
+	else if(joypad_state & J_RIGHT)
 	{
-		if( joypad_state & J_B )
-		{
-			player.speed.x.w += ACCEL;
-		}
-		else
-		{
-			player.speed.x.w += ACCEL;
-		}
+		player.speed.x.w += ACCEL;
 	}
 
 	is_player_running = (joypad_state & J_RIGHT || joypad_state & J_LEFT) && joypad_state & J_B;
