@@ -44,7 +44,8 @@ void game_start()
 
 UBYTE compute_tile( entity_t* ent )
 {
-	return (ent->pos_offset * GB_TILEMAP_WIDTH) + ((ent->pos.x.b.h+ POOKEY_X_OFFSET * 8) >> 3);
+	return ( ent->pos_offset * GB_TILEMAP_WIDTH ) +
+		( (ent->pos.x.b.h + POOKEY_LEFT_CAM_OFFSET * 8 - ent->bounds.left) >> 3);
 	//return (ent->pos_offset * 32) + ((ent->pos.x.b.h+92) >> 3);
 }
 
