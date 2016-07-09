@@ -23,6 +23,7 @@ void makePlayer()
 	player.speed.x.w = 0x0000;
 	player.speed.y.w = 0x0000;
 	player.flags = 0x00;
+	player.bounds.left = 4;
 }
 
 void game_start()

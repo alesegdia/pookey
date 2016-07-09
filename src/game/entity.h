@@ -9,6 +9,14 @@ typedef struct  {
 	vec2w_t pos;
 	vec2w_t speed;
 	UBYTE flags;
+
+	struct {
+		UBYTE left;
+		UBYTE right;
+		UBYTE top;
+		UBYTE bot;
+	} bounds;
+
 } entity_t;
 
 #endif
