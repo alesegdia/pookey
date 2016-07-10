@@ -55,7 +55,7 @@ UBYTE first_tile = 0;
 void scroll()
 {
 	UBYTE new_last_tile = compute_tile(&player);
-	UBYTE new_first_tile = new_last_tile - 9;
+	UBYTE new_first_tile = new_last_tile - POOKEY_LEFT_CAM_OFFSET;
 	UBYTE y_tile;
 	//printf("%d\n", new_last_tile);
 
