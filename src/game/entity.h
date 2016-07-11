@@ -10,6 +10,7 @@ typedef struct  {
 	vec2w_t speed;
 	UBYTE flags;
 
+	// bounds offset (thinking in a 2x2 tile entity)
 	struct {
 		UBYTE left;
 		UBYTE right;
