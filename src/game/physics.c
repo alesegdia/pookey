@@ -19,7 +19,7 @@ void applyGravity( entity_t* e )
 	e->speed.y.w += POOKEY_GRAVITY;
 }
 
-#define XOFFSET 80
+#define XOFFSET (POOKEY_LEFT_CAM_OFFSET+1) * GB_TILE_SIZE
 
 void applySpeed( entity_t* e )
 {
@@ -84,8 +84,8 @@ void handleMapCollision( entity_t* e, map_t* map )
 	}
 
 	// Y COLLISION
-	x_min_tile = ((UBYTE)e->pos.x.b.h + XOFFSET - e->bounds.left) / 8;
-	x_max_tile = ((UBYTE)e->pos.x.b.h + XOFFSET + 8 - e->bounds.right) / 8;
+	x_min_tile = ((UBYTE)e->pos.x.b.h + XOFFSET + e->bounds.left) / 8 - 1;
+	x_max_tile = ((UBYTE)e->pos.x.b.h + XOFFSET - e->bounds.right) / 8 + 1;
 
 	x_min_tile += e->pos_offset * 32;
 	x_max_tile += e->pos_offset * 32;
