@@ -104,13 +104,9 @@ void handleMapCollision( entity_t* e, map_t* map )
 	{
 		moving_up = 0;
 		y_tile = (f.b.h) >> 3;
-
-		if( x_min_tile > x_max_tile )
-		{
-			x_max_tile = x_min_tile + 1;
-		}
 	}
-	for( x_tile = x_min_tile; x_tile <= x_max_tile; x_tile++ )
+
+	for( x_tile = x_min_tile; x_tile != (x_max_tile + 1) % 32; x_tile = (x_tile + 1) % 32 )
 	{
 		unsigned char mt = get_tilemap_tile( map, x_tile, y_tile );
 		if( mt != 0 )
