@@ -4,6 +4,8 @@
 #include <gb/gb.h>
 #include <stdio.h>
 
+UWORD tmpw;
+
 int isGrounded( entity_t* e )
 {
 	return e->flags & 0x01;
@@ -84,8 +86,10 @@ void handleMapCollision( entity_t* e, map_t* map )
 	}
 
 	// Y COLLISION
-	x_min_tile = ((UBYTE)e->pos.x.b.h + XOFFSET + e->bounds.left) / 8 - 1;
-	x_max_tile = ((UBYTE)e->pos.x.b.h + XOFFSET - e->bounds.right) / 8 + 1;
+	tmpw = (((UBYTE)e->pos.x.b.h + XOFFSET + e->bounds.left) >>3) - 1;
+	x_min_tile = tmpw;
+	tmpw = (((UBYTE)e->pos.x.b.h + XOFFSET - e->bounds.right) >>3) + 1;
+	x_max_tile = tmpw;
 
 	x_min_tile += e->pos_offset * 32;
 	x_max_tile += e->pos_offset * 32;
