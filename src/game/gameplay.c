@@ -52,32 +52,32 @@ UBYTE compute_tile( entity_t* ent )
 	//return (ent->pos_offset * 32) + ((ent->pos.x.b.h+92) >> 3);
 }
 
-UBYTE last_tile = 0;
-UBYTE first_tile = 0;
+UBYTE last_x_tile = 0;
+UBYTE first_x_tile = 0;
 
 void scroll()
 {
-	UBYTE new_last_tile = compute_tile(&player);
-	UBYTE new_first_tile = new_last_tile - POOKEY_LEFT_CAM_OFFSET;
+	UBYTE new_last_x_tile = compute_tile(&player);
+	UBYTE new_first_x_tile = new_last_x_tile - POOKEY_LEFT_CAM_OFFSET;
 	UBYTE y_tile;
-	//printf("%d\n", new_last_tile);
+	//printf("%d\n", new_last_x_tile);
 
-	if( new_last_tile != last_tile )
+	if( new_last_x_tile != last_x_tile )
 	{
-		last_tile = new_last_tile;
+		last_x_tile = new_last_x_tile;
 
 		for( y_tile = 0; y_tile < 18; y_tile++ )
 		{
-			set_bkg_tiles( new_last_tile+16, y_tile, 1, 1, get_tilemap_data_ptr(&lvl0_map, new_last_tile+16, y_tile) );
+			set_bkg_tiles( new_last_x_tile+16, y_tile, 1, 1, get_tilemap_data_ptr(&lvl0_map, new_last_x_tile+16, y_tile) );
 		}
 	}
 
-	if( (BYTE)new_first_tile >= 0 && new_first_tile != first_tile )
+	if( (BYTE)new_first_x_tile >= 0 && new_first_x_tile != first_x_tile )
 	{
-		first_tile = new_first_tile;
+		first_x_tile = new_first_x_tile;
 		for( y_tile = 0; y_tile < 18; y_tile++ )
 		{
-			set_bkg_tiles( new_first_tile, y_tile, 1, 1, get_tilemap_data_ptr(&lvl0_map, new_first_tile, y_tile) );
+			set_bkg_tiles( new_first_x_tile, y_tile, 1, 1, get_tilemap_data_ptr(&lvl0_map, new_first_x_tile, y_tile) );
 		}
 	}
 }
